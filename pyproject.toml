@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atlas-batcher"
+version = "1.0.0"
+description = "Local and Tractor render batcher for USD files in the Andhakara pipeline (Houdini husk / Tractor / PySide6)."
+readme = "README.md"
+license = { text = "GPL-3.0-only" }
+authors = [{ name = "Clement Daures", email = "support@clementdaures.com" }]
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Multimedia :: Graphics :: 3D Rendering",
+]
+
+# PySide6 and `atlas_manager` are NOT listed here on purpose: they are
+# provided by the Atlas Manager pipeline environment. The `.env` loader
+# (core/env.py) only uses the standard library, so no python-dotenv is needed.
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "black>=24",
+]
+
+[project.urls]
+Homepage = "https://github.com/clementdaures/atlas_batcher"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+atlas_batcher = ["ui/icon/*.png"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = [
+    "E501", # line length is handled by black
+    "UP009", # every module keeps the `# -*- coding: utf-8 -*-` header (see CONTRIBUTING.md)
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
